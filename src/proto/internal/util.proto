@@ -1,0 +1,7 @@
+syntax = "proto3";
+package cwa.internal;
+{{ annotations }}
+
+message Util {
+    string param1 = 1;
+}
