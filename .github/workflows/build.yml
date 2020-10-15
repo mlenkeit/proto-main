@@ -25,11 +25,10 @@ jobs:
             # You can add multiple source file or folder separate by space
             SRC_DIR: 'dist/cwa-server' 
             # You can create nested folder
-            DEST_DIR: 'from-somewhere'
             # You can rename with format source(comma)target
             # Multiple line if you want to move multiple file / folder
             RENAME: >-
-              cwa-server,common/protocols/src/main/proto/app
+              cwa-server,proto
             # Add your custom Pull Request message
             PR_MESSAGE: 'Update from leading repo'
       # - name: commit
