@@ -14,7 +14,7 @@ module.exports = [
   },
   {
     name: 'cwa-app-ios',
-    dest: 'dist/cwa-app-ios',
+    dest: 'dist/cwa-app-ios/proto/resources',
     packageMapping: [
       { from: /^cwa/, to: 'sap-ios' }
     ],
@@ -24,7 +24,7 @@ module.exports = [
   },
   {
     name: 'cwa-app-android',
-    dest: 'dist/cwa-app-android',
+    dest: 'dist/cwa-app-android/Server-Protocol-Buffer/src/main/proto',
     annotations: [
       'hello cwa-app-android'
     ]

@@ -12,30 +12,25 @@ jobs:
         run: |
           npm install
           node build.js
-      - name: Push then create PR
+      - name: Push to proto-server
         uses: sepulsa/push_then_pr@master
         env:
             API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
-
             DEST_GITHUB_USERNAME: 'mlenkeit'
             DEST_REPO_NAME: 'proto-server'
             USER_EMAIL: 'test@example.com'
             PUSH_TO_BRANCH: 'update-from-main'
             PR_TO_BRANCH: 'main'
-            # You can add multiple source file or folder separate by space
             SRC_DIR: 'dist/cwa-server/*' 
-            # You can create nested folder
-            # You can rename with format source(comma)target
-            # Multiple line if you want to move multiple file / folder
-            # RENAME: >-
-            #   cwa-server,
-            # Add your custom Pull Request message
             PR_MESSAGE: 'Update from leading repo'
-      # - name: commit
-      #   uses: stefanzweifel/git-auto-commit-action@v4
-      #   with:
-      #     commit_message: 'build results'
-      #     branch: build-results
-      #     file_pattern: '--force dist'
-      #     push_options: '--force'
-      #     skip_dirty_check: true
+      - name: Push to proto-android
+        uses: sepulsa/push_then_pr@master
+        env:
+            API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+            DEST_GITHUB_USERNAME: 'mlenkeit'
+            DEST_REPO_NAME: 'proto-android'
+            USER_EMAIL: 'test@example.com'
+            PUSH_TO_BRANCH: 'update-from-main'
+            PR_TO_BRANCH: 'main'
+            SRC_DIR: 'dist/cwa-app-android/*' 
+            PR_MESSAGE: 'Update from leading repo'
