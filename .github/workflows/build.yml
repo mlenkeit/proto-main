@@ -23,7 +23,7 @@ jobs:
             PUSH_TO_BRANCH: 'update-from-main'
             PR_TO_BRANCH: 'main'
             # You can add multiple source file or folder separate by space
-            SRC_DIR: 'dist/cwa-server/common' 
+            SRC_DIR: 'dist/cwa-server/' 
             # You can create nested folder
             # You can rename with format source(comma)target
             # Multiple line if you want to move multiple file / folder
