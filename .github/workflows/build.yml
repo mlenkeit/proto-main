@@ -12,3 +12,11 @@ jobs:
         run: |
           npm install
           node build.js
+      - name: commit
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: 'build results'
+          branch: build-results
+          file_pattern: '--force dist'
+          push_options: '--force'
+          skip_dirty_check: true
