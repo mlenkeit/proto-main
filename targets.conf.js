@@ -3,7 +3,7 @@
 module.exports = [
   {
     name: 'cwa-server',
-    dest: 'dist/cwa-server',
+    dest: 'dist/cwa-server/common/protocols/src/main/proto/app/coronawarn/server/common/protocols/internal',
     packageMapping: [
       { from: /^cwa\.internal$/, to: 'my-internal' },
       { from: /^cwa/, to: 'sap' }
