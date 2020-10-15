@@ -3,5 +3,5 @@ package cwa.internal.hello;
 {{ annotations }}
 
 message HelloWorld {
-    string param1 = 1;
+    string param2 = 1;
 }
