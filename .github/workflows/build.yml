@@ -38,13 +38,14 @@ jobs:
       - name: test
         run: |
           cat $HOME/files.json
-          cat $HOME/files_modified.json
-          cat $HOME/files_added.json
-          cat $HOME/files_removed.json
           echo '${{ steps.file_changes.outputs.files}}'
-          echo '${{ steps.file_changes.outputs.files_modified}}'
-          echo '${{ steps.file_changes.outputs.files_added}}'
-          echo '${{ steps.file_changes.outputs.files_removed}}'
+      - name: Create list of files
+        id: files_list
+        uses: lucaspinheirogit/list-from-string-array-action@v1.4.3
+        with:
+          stringArray: ${{ steps.file_changes.outputs.files }}
+      - name: Print modified files
+        run: echo '${{ steps.files_list.outputs.stringList }}'
       - name: build
         run: |
           npm install

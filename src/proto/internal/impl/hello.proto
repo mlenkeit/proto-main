@@ -4,4 +4,5 @@ package cwa.internal.hello;
 
 message HelloWorld {
     string param2 = 1;
+    string param3 = 2;
 }
