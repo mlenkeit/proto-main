@@ -54,7 +54,7 @@ jobs:
           echo 'first found proto file: ${{ steps.find-proto-files.outputs.first_match }}'
           PROCESS_CONTINUE=${{ contains(steps.find-proto-files.outputs.first_match, 'src/proto') }}
           echo PROCESS_CONTINUE $PROCESS_CONTINUE
-          echo "::set-output name=process-continue::$PROCESS_CONTINUE)"
+          echo "::set-output name=process-continue::$PROCESS_CONTINUE"
       - name: test condition
         run: |
           echo Continue? ${{ steps.decide-to-continue.outputs.process-continue }}
