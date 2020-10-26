@@ -11,15 +11,16 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-      - name: set branch name
+      - name: Calculate Branch Name
+        id: calculate-branch-name
         run: |
           echo GITHUB_REF $GITHUB_REF
           BRANCH=${GITHUB_REF#refs/heads/release/*}
           echo Branch Name $BRANCH
           echo "::set-output name=BRANCH_NAME::$BRANCH"
-        id: calculate-branch-name
       - uses: actions/github-script@0.6.0
-        id: pr
+        name: Get PR for the commit
+        id: get-pr-for-commit
         with:
           github-token: ${{ secrets.API_TOKEN_GITHUB }}
           result-encoding: string
@@ -30,32 +31,36 @@ jobs:
               commit_sha: context.payload.head_commit.id
             })
             return result.data[0].number;
-      - id: file_changes
+      - name: Get file changes
+        id: get-file-changes
         uses: trilom/file-changes-action@v1.2.3
         with:
           githubToken: ${{ secrets.API_TOKEN_GITHUB }}
-          prNumber: ${{ steps.pr.outputs.results }}
-      - name: test
+          prNumber: ${{ steps.get-pr-for-commit.outputs.results }}
+      - name: Show file changes
         run: |
           cat $HOME/files.json
-          echo '${{ steps.file_changes.outputs.files }}'
-      - name: Find proto files
-        id: find
+          echo '${{ steps.get-file-changes.outputs.files }}'
+      - name: Find changed proto files
+        id: find-proto-files
         uses: AsasInnab/regex-action@v1
         with:
           regex_pattern: 'src\/proto\/\D+.proto'
           regex_flags: 'gim'
           search_string: ${{ steps.file_changes.outputs.files}}
-      - name: Echo found proto files
-        run: echo 'first found proto file ${{ steps.find.outputs.first_match }}'
+      - name: Decide how should process continue
+        id: decide-to-continue
+        run: |
+          echo 'first found proto file ${{ steps.find-proto-files.outputs.first_match }}'
+          echo "::set-output name=process-continue::contains(steps.find.outputs.first_match, 'src/proto')"
       - name: build
-        if:  ${{ contains(steps.find.outputs.first_match, 'src/proto') }}
+        if:  ${{ steps.decide-to-continue.outputs.process-continue }}
         run: |
           npm install
           node build.js
       - name: Push to proto-server
         uses: sepulsa/push_then_pr@master
-        if:  ${{ contains(steps.find.outputs.first_match, 'src/proto') }}
+        if:  ${{ steps.decide-to-continue.outputs.process-continue }}
         env:
             API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
             DEST_GITHUB_USERNAME: 'mlenkeit'
@@ -67,7 +72,7 @@ jobs:
             PR_MESSAGE: 'Update from leading repo ${{ steps.calculate-branch-name.outputs.BRANCH_NAME }}'
       - name: Push to proto-android
         uses: sepulsa/push_then_pr@master
-        if:  ${{ contains(steps.find.outputs.first_match, 'src/proto') }}
+        if:  ${{ steps.decide-to-continue.outputs.process-continue }}
         env:
             API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
             DEST_GITHUB_USERNAME: 'mlenkeit'
