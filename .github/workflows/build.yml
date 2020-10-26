@@ -49,13 +49,13 @@ jobs:
       - name: Echo found proto files
         run: echo 'first found proto file ${{ steps.find.outputs.first_match }}'
       - name: build
-        if:  ${{ contains(steps.find.outputs.first_match, "src/proto") }}
+        if:  ${{ contains(steps.find.outputs.first_match, 'src/proto') }}
         run: |
           npm install
           node build.js
       - name: Push to proto-server
         uses: sepulsa/push_then_pr@master
-        if:  ${{ contains(steps.find.outputs.first_match, "src/proto") }}
+        if:  ${{ contains(steps.find.outputs.first_match, 'src/proto') }}
         env:
             API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
             DEST_GITHUB_USERNAME: 'mlenkeit'
@@ -67,7 +67,7 @@ jobs:
             PR_MESSAGE: 'Update from leading repo ${{ steps.calculate-branch-name.outputs.BRANCH_NAME }}'
       - name: Push to proto-android
         uses: sepulsa/push_then_pr@master
-        if:  ${{ contains(steps.find.outputs.first_match, "src/proto") }}
+        if:  ${{ contains(steps.find.outputs.first_match, 'src/proto') }}
         env:
             API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
             DEST_GITHUB_USERNAME: 'mlenkeit'
