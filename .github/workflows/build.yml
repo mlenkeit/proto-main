@@ -15,7 +15,7 @@ jobs:
         run: |
           echo GITHUB_REF $GITHUB_REF
           REF=$GITHUB_REF
-          BRANCH=${REF#refs/heads/*}
+          BRANCH=${GITHUB_REF#refs/heads/*}
           echo Branch Name $BRANCH
           echo "::set-output name=BRANCH_NAME::$BRANCH"
         id: calculate-branch-name
@@ -32,8 +32,8 @@ jobs:
             DEST_GITHUB_USERNAME: 'mlenkeit'
             DEST_REPO_NAME: 'proto-server'
             USER_EMAIL: 'test@example.com'
-            PUSH_TO_BRANCH: 'update-from-${{ steps.calculate-branch-name.outputs.BRANCH_NAME }}'
-            PR_TO_BRANCH: 'main'
+            PUSH_TO_BRANCH: 'chore/update-protobuf-from-${{ steps.calculate-branch-name.outputs.BRANCH_NAME }}'
+            PR_TO_BRANCH: 'poc/central-protobuf-files-${{ steps.calculate-branch-name.outputs.BRANCH_NAME }}'
             SRC_DIR: 'dist/cwa-server/*'
             PR_MESSAGE: 'Update from leading repo'
       - name: Push to proto-android
@@ -43,7 +43,7 @@ jobs:
             DEST_GITHUB_USERNAME: 'mlenkeit'
             DEST_REPO_NAME: 'proto-android'
             USER_EMAIL: 'test@example.com'
-            PUSH_TO_BRANCH: 'update-from-main'
-            PR_TO_BRANCH: 'main'
+            PUSH_TO_BRANCH: 'chore/update-protobuf-from-${{ steps.calculate-branch-name.outputs.BRANCH_NAME }}'
+            PR_TO_BRANCH: 'poc/central-protobuf-files-${{ steps.calculate-branch-name.outputs.BRANCH_NAME }}'
             SRC_DIR: 'dist/cwa-app-android/*'
             PR_MESSAGE: 'Update from leading repo'
