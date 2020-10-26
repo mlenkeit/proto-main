@@ -15,7 +15,7 @@ jobs:
         run: |
           echo GITHUB_REF $GITHUB_REF
           REF=$GITHUB_REF
-          BRANCH=${REF##refs/heads/*}
+          BRANCH=${REF#refs/heads/*}
           echo Branch Name $BRANCH
           echo "::set-output name=BRANCH_NAME::$BRANCH"
         id: calculate-branch-name
