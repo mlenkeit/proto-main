@@ -23,7 +23,7 @@ jobs:
             DEST_GITHUB_USERNAME: 'mlenkeit'
             DEST_REPO_NAME: 'proto-server'
             USER_EMAIL: 'test@example.com'
-            PUSH_TO_BRANCH: 'update-from-main'
+            PUSH_TO_BRANCH: 'update-from-${{github.ref}}'
             PR_TO_BRANCH: 'main'
             SRC_DIR: 'dist/cwa-server/*'
             PR_MESSAGE: 'Update from leading repo'
