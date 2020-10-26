@@ -38,7 +38,7 @@ jobs:
       - name: test
         run: |
           cat $HOME/files.json
-          echo '${{ steps.file_changes.outputs.files}}'
+          echo '${{ steps.file_changes.outputs.files }}'
       - name: Find proto files
         id: find
         uses: AsasInnab/regex-action@v1
@@ -49,11 +49,13 @@ jobs:
       - name: Echo found proto files
         run: echo 'first found proto file ${{ steps.find.outputs.first_match }}'
       - name: build
+        if:  ${{ containes(steps.find.outputs.first_match, "src/proto") }}
         run: |
           npm install
           node build.js
       - name: Push to proto-server
         uses: sepulsa/push_then_pr@master
+        if:  ${{ containes(steps.find.outputs.first_match, "src/proto") }}
         env:
             API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
             DEST_GITHUB_USERNAME: 'mlenkeit'
@@ -65,6 +67,7 @@ jobs:
             PR_MESSAGE: 'Update from leading repo ${{ steps.calculate-branch-name.outputs.BRANCH_NAME }}'
       - name: Push to proto-android
         uses: sepulsa/push_then_pr@master
+        if:  ${{ containes(steps.find.outputs.first_match, "src/proto") }}
         env:
             API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
             DEST_GITHUB_USERNAME: 'mlenkeit'
