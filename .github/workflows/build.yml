@@ -55,10 +55,6 @@ jobs:
           PROCESS_CONTINUE=${{ contains(steps.find-proto-files.outputs.first_match, 'src/proto') }}
           echo PROCESS_CONTINUE $PROCESS_CONTINUE
           echo "::set-output name=process-continue::$PROCESS_CONTINUE"
-      - name: test condition
-        run: |
-          echo Continue? ${{ steps.decide-to-continue.outputs.process-continue }}
-          echo Continue Result of Expression? ${{ steps.decide-to-continue.outputs.process-continue == 'true' }}
       - name: build
         if: ${{ steps.decide-to-continue.outputs.process-continue == 'true' }}
         run: |
