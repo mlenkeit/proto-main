@@ -56,13 +56,13 @@ jobs:
           echo PROCESS_CONTINUE $PROCESS_CONTINUE
           echo "::set-output name=process-continue::$PROCESS_CONTINUE)"
       - name: build
-        if: ${{ steps.decide-to-continue.outputs.process-continue }}
+        if: ${{ steps.decide-to-continue.outputs.process-continue == 'true' }}
         run: |
           npm install
           node build.js
       - name: Push to proto-server
         uses: sepulsa/push_then_pr@master
-        if: ${{ steps.decide-to-continue.outputs.process-continue }}
+        if: ${{ steps.decide-to-continue.outputs.process-continue == 'true' }}
         env:
             API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
             DEST_GITHUB_USERNAME: 'mlenkeit'
@@ -74,7 +74,7 @@ jobs:
             PR_MESSAGE: 'Update from leading repo ${{ steps.calculate-branch-name.outputs.BRANCH_NAME }}'
       - name: Push to proto-android
         uses: sepulsa/push_then_pr@master
-        if: ${{ steps.decide-to-continue.outputs.process-continue }}
+        if: ${{ steps.decide-to-continue.outputs.process-continue == 'true' }}
         env:
             API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
             DEST_GITHUB_USERNAME: 'mlenkeit'
