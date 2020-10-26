@@ -1,6 +1,9 @@
 name: Build
 
-on: [push]
+on:
+  push:
+    branches:
+      - 'release/**'
 
 jobs:
   build_and_test:
@@ -10,6 +13,7 @@ jobs:
         uses: actions/checkout@v2
       - name: build
         run: |
+          echo Branch $GITHUB_REF
           npm install
           node build.js
       - name: Push to proto-server
@@ -21,7 +25,7 @@ jobs:
             USER_EMAIL: 'test@example.com'
             PUSH_TO_BRANCH: 'update-from-main'
             PR_TO_BRANCH: 'main'
-            SRC_DIR: 'dist/cwa-server/*' 
+            SRC_DIR: 'dist/cwa-server/*'
             PR_MESSAGE: 'Update from leading repo'
       - name: Push to proto-android
         uses: sepulsa/push_then_pr@master
@@ -32,5 +36,5 @@ jobs:
             USER_EMAIL: 'test@example.com'
             PUSH_TO_BRANCH: 'update-from-main'
             PR_TO_BRANCH: 'main'
-            SRC_DIR: 'dist/cwa-app-android/*' 
+            SRC_DIR: 'dist/cwa-app-android/*'
             PR_MESSAGE: 'Update from leading repo'
