@@ -18,8 +18,26 @@ jobs:
           echo Branch Name $BRANCH
           echo "::set-output name=BRANCH_NAME::$BRANCH"
         id: calculate-branch-name
-      - name: Get Branch Name
-        run: echo "The branch name is ${{ steps.calculate-branch-name.outputs.BRANCH_NAME }}"
+      - uses: actions/github-script@0.6.0
+        id: pr
+        with:
+          github-token: ${{ secrets.API_TOKEN_GITHUB }}
+          result-encoding: string
+          script: |
+            const result = await github.repos.listPullRequestsAssociatedWithCommit({
+              owner: context.payload.repository.owner.name,
+              repo: context.payload.repository.name,
+              commit_sha: context.payload.head_commit.id
+            })
+            return result.data[0].number;
+      - id: file_changes
+        uses: trilom/file-changes-action@v1.2.3
+        with:
+          githubToken: ${{ secrets.API_TOKEN_GITHUB }}
+          prNumber: ${{ steps.pr.outputs.results }}
+          output: ' '
+          fileOutput: ' '
+
       - name: build
         run: |
           npm install
