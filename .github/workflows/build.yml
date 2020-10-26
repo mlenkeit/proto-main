@@ -31,10 +31,10 @@ jobs:
             DEST_GITHUB_USERNAME: 'mlenkeit'
             DEST_REPO_NAME: 'proto-server'
             USER_EMAIL: 'test@example.com'
-            PUSH_TO_BRANCH: 'update-protobuf-from-${{ steps.calculate-branch-name.outputs.BRANCH_NAME }}'
-            PR_TO_BRANCH: 'central-protobuf-files-${{ steps.calculate-branch-name.outputs.BRANCH_NAME }}'
+            PUSH_TO_BRANCH: 'chore/update-protobuf-from-${{ steps.calculate-branch-name.outputs.BRANCH_NAME }}'
+            PR_TO_BRANCH: 'poc/central-protobuf-files-${{ steps.calculate-branch-name.outputs.BRANCH_NAME }}'
             SRC_DIR: 'dist/cwa-server/*'
-            PR_MESSAGE: 'Update from leading repo'
+            PR_MESSAGE: 'Update from leading repo ${{ steps.calculate-branch-name.outputs.BRANCH_NAME }}'
       - name: Push to proto-android
         uses: sepulsa/push_then_pr@master
         env:
@@ -42,7 +42,7 @@ jobs:
             DEST_GITHUB_USERNAME: 'mlenkeit'
             DEST_REPO_NAME: 'proto-android'
             USER_EMAIL: 'test@example.com'
-            PUSH_TO_BRANCH: 'update-protobuf-from-${{ steps.calculate-branch-name.outputs.BRANCH_NAME }}'
-            PR_TO_BRANCH: 'central-protobuf-files-${{ steps.calculate-branch-name.outputs.BRANCH_NAME }}'
+            PUSH_TO_BRANCH: 'chore/update-protobuf-from-${{ steps.calculate-branch-name.outputs.BRANCH_NAME }}'
+            PR_TO_BRANCH: 'poc/central-protobuf-files-${{ steps.calculate-branch-name.outputs.BRANCH_NAME }}'
             SRC_DIR: 'dist/cwa-app-android/*'
-            PR_MESSAGE: 'Update from leading repo'
+            PR_MESSAGE: 'Update from leading repo ${{ steps.calculate-branch-name.outputs.BRANCH_NAME }}'
