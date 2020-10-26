@@ -58,6 +58,8 @@ jobs:
       - name: build
         if: ${{ steps.decide-to-continue.outputs.process-continue == 'true' }}
         run: |
+          echo Continue? ${{ steps.decide-to-continue.outputs.process-continue }}
+          echo Continue Result of Expression? ${{ steps.decide-to-continue.outputs.process-continue == 'true' }}
           npm install
           node build.js
       - name: Push to proto-server
