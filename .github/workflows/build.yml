@@ -47,12 +47,14 @@ jobs:
         with:
           regex_pattern: 'src\/proto\/\D+.proto'
           regex_flags: 'gim'
-          search_string: ${{ steps.get-file-changes.outputs.files}}
+          search_string: ${{ steps.get-file-changes.outputs.files }}
       - name: Decide how should process continue
         id: decide-to-continue
         run: |
-          echo 'first found proto file ${{ steps.find-proto-files.outputs.first_match }}'
-          echo "::set-output name=process-continue::contains(steps.find.outputs.first_match, 'src/proto')"
+          echo 'first found proto file: ${{ steps.find-proto-files.outputs.first_match }}'
+          PROCESS_CONTINUE=contains(steps.find-proto-files.outputs.first_match, 'src/proto')
+          echo PROCESS_CONTINUE $PROCESS_CONTINUE
+          echo "::set-output name=process-continue::$PROCESS_CONTINUE)"
       - name: build
         if:  ${{ steps.decide-to-continue.outputs.process-continue }}
         run: |
