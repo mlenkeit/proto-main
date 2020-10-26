@@ -11,9 +11,17 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+      - name: set branch name
+        run: |
+          echo GITHUB_REF $GITHUB_REF
+          BRANCH=${GITHUB_REF#ref/heads}
+          echo Branch Name $BRANCH
+          echo '::set-output name=BRANCH_NAME::${$GITHUB_REF#ref/heads}'
+        id: calculate-branch-name
+      - name: Get Branch Name
+        run: echo "The branch name is ${{ steps.calculate-branch-name.outputs.BRANCH_NAME }}"
       - name: build
         run: |
-          echo Branch $GITHUB_REF
           npm install
           node build.js
       - name: Push to proto-server
@@ -23,7 +31,7 @@ jobs:
             DEST_GITHUB_USERNAME: 'mlenkeit'
             DEST_REPO_NAME: 'proto-server'
             USER_EMAIL: 'test@example.com'
-            PUSH_TO_BRANCH: 'update-from-${{github.ref}}'
+            PUSH_TO_BRANCH: 'update-from-${{ steps.calculate-branch-name.outputs.BRANCH_NAME }}'
             PR_TO_BRANCH: 'main'
             SRC_DIR: 'dist/cwa-server/*'
             PR_MESSAGE: 'Update from leading repo'
