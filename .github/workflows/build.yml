@@ -47,7 +47,7 @@ jobs:
           regex_flags: 'gim'
           search_string: ${{ steps.file_changes.outputs.files}}
       - name: Echo found proto files
-        run: echo 'first found proto file: ${{ steps.find.outputs.first_match }}''
+        run: echo 'first found proto file ${{ steps.find.outputs.first_match }}'
       - name: build
         run: |
           npm install
